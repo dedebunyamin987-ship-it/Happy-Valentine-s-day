@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valentine 💖</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+margin:0;
+background:#ffd6e7;
+overflow:hidden;
+}
+
+/* ===== PAGE SYSTEM FIX ===== */
+
+section{
+position:absolute;
+inset:0;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+padding:20px;
+opacity:0;
+pointer-events:none;
+transition:opacity .5s ease;
+}
+
+section.active{
+opacity:1;
+pointer-events:auto;
+z-index:1;
+}
+
+/* ============================ */
+
+h1{
+font-family:'Playfair Display',serif;
+font-size:28px;
+text-align:center;
+margin-bottom:20px;
+}
+
+button{
+padding:12px 22px;
+border:none;
+border-radius:30px;
+margin:8px;
+font-size:16px;
+cursor:pointer;
+transition:.3s;
+}
+
+.yes{
+background:#ff6f91;
+color:white;
+}
+
+.no{
+background:white;
+border:1px solid #ff6f91;
+}
+
+.small-text{
+margin-top:10px;
+font-size:14px;
+color:#666;
+}
+
+/* Hearts */
+.heart{
+position:absolute;
+top:-10px;
+font-size:14px;
+color:#ff6f91;
+animation:fall linear infinite;
+pointer-events:none;
+}
+
+@keyframes fall{
+to{transform:translateY(110vh);}
+}
+
+/* Photo */
+.photo-grid{
+display:grid;
+grid-template-columns:1fr;
+gap:15px;
+width:100%;
+max-width:400px;
+}
+
+.photo-grid img{
+width:100%;
+border-radius:18px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+transition:.3s;
+}
+.photo-item{
+display:flex;
+flex-direction:column;
+align-items:center;
+}
+
+.caption{
+margin-top:8px;
+font-size:14px;
+color:#555;
+text-align:center;
+}
+.photo-grid img:active{
+transform:scale(1.05);
+}
+
+/* Letter */
+.letter{
+background:linear-gradient(to bottom,#ffd6e0,#fff);
+padding:20px;
+border-radius:18px;
+box-shadow:0 4px 10px rgba(0,0,0,0.1);
+white-space:pre-line;
+font-style:italic;
+max-width:400px;
+}
+
+/* Timeline */
+.timeline{
+display:flex;
+flex-direction:column;
+gap:15px;
+max-width:400px;
+width:100%;
+}
+
+.card{
+background:white;
+padding:15px;
+border-radius:15px;
+box-shadow:0 4px 10px rgba(0,0,0,0.08);
+opacity:0;
+transform:translateX(-20px);
+transition:.5s;
+}
+
+.card.show{
+opacity:1;
+transform:translateX(0);
+}
+
+/* Night gradient & glow effect */
+.night {
+  background: linear-gradient(to bottom, #0c1b2a, #1a2a45, #0c1b2a);
+  color: #fff;
+  position: absolute;
+  overflow: hidden;
+}
+
+.night h1 {
+  text-align: center;
+  font-size: 28px;
+  text-shadow: 0 0 10px #fff, 0 0 20px #ff6f91, 0 0 30px #ff6f91;
+  animation: glowText 2s infinite alternate;
+}
+
+@keyframes glowText {
+  0% { text-shadow: 0 0 5px #fff, 0 0 10px #ff6f91, 0 0 15px #ff6f91; }
+  50% { text-shadow: 0 0 10px #fff, 0 0 20px #ff6f91, 0 0 30px #ff6f91; }
+  100% { text-shadow: 0 0 5px #fff, 0 0 10px #ff6f91, 0 0 15px #ff6f91; }
+}
+
+/* Optional: subtle floating hearts in background */
+.night::before {
+  content: '💗';
+  position: absolute;
+  font-size: 20px;
+  left: 20%;
+  top: -5%;
+  opacity: 0.3;
+  animation: floatHeart 6s infinite linear;
+}
+
+.night::after {
+  content: '💖';
+  position: absolute;
+  font-size: 25px;
+  left: 70%;
+  top: -10%;
+  opacity: 0.2;
+  animation: floatHeart 8s infinite linear;
+}
+
+@keyframes floatHeart {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0.2; }
+  50% { opacity: 0.6; }
+  100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+}
+
+/* Night */
+.night{
+background:#0c1b2a;
+color:white;
+}
+
+
+.music-btn{
+position:absolute;
+top:15px;
+right:15px;
+border-radius:50%;
+width:40px;
+height:40px;
+background:white;
+}
+
+.big-heart{
+font-size:60px;
+animation:pop .6s ease;
+}
+
+@keyframes pop{
+0%{transform:scale(0);}
+100%{transform:scale(1);}
+}
+</style>
+</head>
+<body>
+
+<section id="page1" class="active">
+<h1>Will you be my Valentine? 💌</h1>
+<div>
+<button class="yes" id="yesBtn">YES 💖</button>
+<button class="no" id="noBtn">NO 🙄</button>
+</div>
+<div class="small-text" id="noText"></div>
+</section>
+
+<section id="page2">
+<h1>YEAYYYYY 🥳💖</h1>
+<p>Kamu resmi jadi Valentine aku!</p>
+<button onclick="showPage(3)">Lanjut 👉</button>
+</section>
+
+<section id="page3">
+<h1>Sedikit kenangan kita 🤍</h1>
+<div class="photo-grid">
+<img src="foto1.jpg">
+<p class="caption">Hari dimana kita lomba barengg🤓</p>
+<img src="foto2.jpg">
+<p class="caption">Judulnya sihh latihan senam</p>
+<img src="foto3.png">
+<p class="caption">First time kita photoboth 🤭</p>
+<img src="foto4.jpg">
+<p class="caption">First date kita lhoooo🥰</p>
+</div>
+<button onclick="showPage(4)">Lanjut 👉</button>
+</section>
+
+<section id="page4">
+<h1>Untuk kamu 🤍</h1>
+<div class="letter" id="letter"></div>
+<button onclick="showPage(5)">Ada lagi nggak?</button>
+</section>
+
+<section id="page5">
+<h1>Timeline Kita 💕</h1>
+<div class="timeline">
+<div class="card">❤️ 24 Juli 2025 — Hari pertama kita chatan 🥰</div>
+<div class="card">❤️ 29 Agustus 2025 pertama kali aku gambarin muka kamuu🖌️</div>
+<div class="card">❤️ 28 Sep 2025 — First date kita 🤭</div>
+<div class="card">❤️ 28 sep 2025 pertama kalinya kita fotbar😆</div>
+<div class="card">❤️ 2 Okt 2025 — First flower 💐</div>
+<div class="card">❤️ 16 Okt 2025 — Hari kita jadian 💝</div>
+</div>
+<div class="card">❤️ 14 Desember 2025 — First time kita photoboth📸</div>
+<button onclick="showPage(6)">Lanjut 👉</button>
+</section>
+
+<section id="page6" class="night">
+<div class="stars"></div>
+<h1>Janji ya kita tumbuh bareng?<br>Sampai kapanpun.</h1>
+<button onclick="finalScene()">Promise 🤍</button>
+<button class="music-btn" onclick="toggleMusic()">🎵</button>
+<audio id="bgMusic" loop>
+  <source src="lavender-sentimental-cinematic.mp3" type="audio/mpeg">
+</audio>
+<div id="finalText"></div>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+
+const sections=document.querySelectorAll("section");
+const yesBtn=document.getElementById("yesBtn");
+const noBtn=document.getElementById("noText") ? document.getElementById("noBtn") : null;
+const noText=document.getElementById("noText");
+const letter=document.getElementById("letter");
+
+window.showPage=function(num){
+sections.forEach(s=>s.classList.remove("active"));
+document.getElementById("page"+num).classList.add("active");
+
+if(num===4){
+letter.textContent="";
+index=0;
+setTimeout(typeLetter,300);
+}
+
+if(num===5){
+document.querySelectorAll(".card").forEach((c,i)=>{
+setTimeout(()=>c.classList.add("show"),i*300);
+});
+}
+};
+
+let scale=1;
+let clicks=0;
+const msgs=["Yakin?","Masa sih?","Aku tungguin loh 😌"];
+
+document.getElementById("noBtn").addEventListener("click",()=>{
+scale+=0.2;
+yesBtn.style.transform=`scale(${scale})`;
+if(clicks<msgs.length){
+noText.textContent=msgs[clicks];
+}
+clicks++;
+});
+
+yesBtn.addEventListener("click", () => {
+  const music = document.getElementById("bgMusic");
+  music.currentTime = 0;
+  music.play().catch(() => {});
+  showPage(2);
+});
+
+const text=`For My Future Wife~
+
+  Indry sayanggg💝
+  
+Terima kasih sudah hadir di hidup aku.Kamu bikin hari - hariku lebih berwarna, lebih hangat, dan lebih bermakna.Aku nggak selalu sempurna, kadang juga nyebelin😅
+
+Aku bersyukur banget bisa punya kamu,Semoga kita bisa terus bareng, dan bikin banyak kenangan indah lagi di masa depan.Kamu itu hadiah terindah yang pernah aku punya💝
+Happy Valentine sayanggh😆.Aku sayang kamu lebih dari kata
+kata yang bisa aku tulis`;
+
+let index=0;
+function typeLetter(){
+if(index<text.length){
+letter.textContent+=text[index];
+index++;
+setTimeout(typeLetter,40);
+}
+}
+
+setInterval(()=>{
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="💗";
+h.style.left=Math.random()*100+"%";
+h.style.animationDuration=4+Math.random()*4+"s";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),8000);
+},600);
+
+window.finalScene=function(){
+document.getElementById("finalText").innerHTML=
+"<div class='big-heart'>💖</div><p>Thank you for choosing me.<br>Happy Valentine’s Day 🤍</p>";
+};
+
+window.toggleMusic=function(){
+let m=document.getElementById("bgMusic");
+m.paused?m.play():m.pause();
+};
+
+});
+</script>
+
+</body>
+</html>
